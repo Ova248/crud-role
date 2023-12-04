@@ -4,12 +4,12 @@ import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBkf9sxAIZkH-CFBO946MrC8j0pM8Df5vk",
-    authDomain: "project-crud-rol.firebaseapp.com",
-    projectId: "project-crud-rol",
-    storageBucket: "project-crud-rol.appspot.com",
-    messagingSenderId: "109076798738",
-    appId: "1:109076798738:web:7bd08ab0f80bbebc6267cb"
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID
   };
 
 // Initialize Firebase
