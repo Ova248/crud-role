@@ -1,10 +1,4 @@
-import React, {useState, useEffect} from 'react'
-
-const initialState = {
-  title: "",
-
-  description: "" 
-};
+import React from 'react'
 
 
 const AddEditCrud = () => {
