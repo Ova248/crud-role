@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = ({ active, setActive, user, handleLogout }) => {
+  // const navigate = useNavigate();
   const userId = user?.uid;
 
   return (
@@ -83,12 +84,11 @@ const Navbar = ({ active, setActive, user, handleLogout }) => {
                       </li>
                     </>
                   ) : (
-                    <Link to="/auth" style={{ textDecoration: "none" }}>
+                    <Link to="/auth/sign-in" style={{ textDecoration: "none" }}>
                       <li
                         className={`nav-item nav-link ${
                           active === "login" ? "active" : ""
                         }`}
-                        onClick={() => setActive("login")}
                       >
                         Login
                       </li>
