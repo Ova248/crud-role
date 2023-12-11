@@ -41,6 +41,7 @@ export const EditProfile = ({ user }) => {
         await updatePassword(currentUser, password);
       }
       toast.success("Profile updated successfully");
+      navigate("/");
     } catch (error) {
       console.error("Error updating profile:", error.message);
       toast.error("Error updating profile");
