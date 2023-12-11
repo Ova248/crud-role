@@ -58,7 +58,7 @@ function App() {
           path="/auth/sign-up"
           element={<Register setActive={setActive} />}
         />
-        <Route path="/edit-profile" element={<EditProfile/>}/>
+        <Route path="/edit-profile" element={<EditProfile user={user}/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

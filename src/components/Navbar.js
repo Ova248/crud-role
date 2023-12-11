@@ -75,9 +75,11 @@ const Navbar = ({ active, setActive, user, handleLogout }) => {
                           }}
                         />
                       </div>
+                      <Link to="/edit-profile" style={{ textDecoration: "none" }}>
                       <p style={{ marginTop: "12px", marginLeft: "5px" }}>
-                        {user?.displayName}
+                        {user?.displayName} {user?.lastName}
                       </p>
+                      </Link>
                       <li className="nav-item nav-link" onClick={handleLogout}>
                         Logout
                       </li>
