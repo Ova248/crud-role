@@ -14,6 +14,7 @@ import { auth } from "./firebase-config";
 import { signOut } from "firebase/auth";
 import { Login } from "./pages/Auth/SignIn";
 import { Register } from "./pages/Auth/SignUp";
+import { EditProfile } from "./pages/EditProfile";
 
 function App() {
   const [active, setActive] = useState("home");
@@ -57,6 +58,7 @@ function App() {
           path="/auth/sign-up"
           element={<Register setActive={setActive} />}
         />
+        <Route path="/edit-profile" element={<EditProfile/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

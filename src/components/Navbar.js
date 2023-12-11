@@ -1,8 +1,7 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ active, setActive, user, handleLogout }) => {
-  // const navigate = useNavigate();
   const userId = user?.uid;
 
   return (

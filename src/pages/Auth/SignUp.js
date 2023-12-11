@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { auth } from "../../firebase-config";
@@ -15,21 +15,26 @@ export const Register = ({ setActive }) => {
   const handleAuth = async (e) => {
     e.preventDefault();
     if (name && lastName && email && password) {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      await updateProfile(user, { displayName: `${name} ${lastName}` });
-      setActive("home");
+      try {
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        await updateProfile(user, { displayName: `${name} ${lastName}` });
+        setActive("home");
+        navigate("/");
+      } catch (error) {
+        console.error("Error al actualizar el perfil:", error.message);
+        toast.error("Error al crear la cuenta de usuario");
+      }
     } else {
       return toast.error("All fields are mandatory to fill");
     }
-    navigate("/");
   };
 
   const handleLoginClick = () => {
-    navigate("/auth/sign-in"); 
+    navigate("/auth/sign-in");
   };
 
   return (
