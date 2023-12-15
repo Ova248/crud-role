@@ -7,19 +7,26 @@ import { useNavigate} from "react-router-dom";
 export const Login = ({ setActive }) => {
   const [email, setEmail] = useState("");
   const [password, setPasword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
   const handleAuth = async (e) => {
     e.preventDefault();
     if (email && password) {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
-      console.log(user);
-      setActive("home");
-      navigate("/home"); 
+      try {
+        const { user } = await signInWithEmailAndPassword(auth, email, password);
+        console.log(user);
+        setActive("home");
+        navigate("/home");
+      } catch (error) {
+        console.error("Error signing in:", error.message);
+        return toast.error("Invalid email or password.");
+      }
     } else {
       return toast.error("All fields are mandatory to fill");
     }
+  
     navigate("/");
   };
 
@@ -48,13 +55,22 @@ export const Login = ({ setActive }) => {
               </div>
               <div className="col-12 py-3">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   className="form-control input-text-box"
                   placeholder="Password"
                   name="password"
                   value={password}
                   onChange={(e) => setPasword(e.target.value)}
                 />
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  checked={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                <label className="col-0" htmlFor="showPassword">
+                  Show Password
+                </label>
               </div>
               <div className="col-12 py-3 text-center">
                 <button className="btn btn-sign-in" type="submit">

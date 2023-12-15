@@ -1,15 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
 import ProfileDropdown from "../profileDropdown/ProfileDropdown";
 
 const Navbar = ({ active, setActive, user, handleLogout }) => {
   const userId = user?.uid;
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const handleDropdownToggle = () => {
-    setShowDropdown(!showDropdown);
-  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">

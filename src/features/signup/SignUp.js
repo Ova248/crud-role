@@ -92,7 +92,7 @@ export const Register = ({ setActive }) => {
                   checked={showPassword}
                   onChange={() => setShowPassword(!showPassword)}
                 />
-                <label className="" htmlFor="showPassword">
+                <label className="col-0" htmlFor="showPassword">
                   Show Password
                 </label>
               </div>
