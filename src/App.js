@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Roles } from "./pages/Roles";
 import AddEditCrud from "./pages/AddEditCrud";
 import NotFound from "./pages/NotFound";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import { auth } from "./firebase-config";
 import { signOut } from "firebase/auth";
 import { Login } from "./pages/Auth/SignIn";

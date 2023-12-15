@@ -14,6 +14,7 @@ export const EditProfile = ({ user }) => {
   // const [lastName, setLastName] = useState("");
   // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,24 +76,31 @@ export const EditProfile = ({ user }) => {
           />
         </div> */}
             {/* <div className="mb-3">
-          <input
-          type="email"
-          className="form-control"
-          placeholder="Wmail"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          />
-        </div> */}
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Wmail"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div> */}
             <div className="col-6 py-3">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"} 
                 className="form-control"
                 placeholder="Password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <input
+                type="checkbox"
+                id="showPassword"
+                checked={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              <label htmlFor="showPassword"> Show Password</label>
             </div>
             <button type="submit" className="btn btn-primary">
               Update Profile
