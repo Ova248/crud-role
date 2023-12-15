@@ -100,7 +100,7 @@ export const EditProfile = ({ user }) => {
                 checked={showPassword}
                 onChange={() => setShowPassword(!showPassword)}
               />
-              <label htmlFor="showPassword"> Show Password</label>
+              <label className="col-5" htmlFor="showPassword"> Show Password</label>
             </div>
             <button type="submit" className="btn btn-primary">
               Update Profile
