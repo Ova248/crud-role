@@ -9,6 +9,7 @@ export const Register = ({ setActive }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPasword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -78,13 +79,22 @@ export const Register = ({ setActive }) => {
               </div>
               <div className="col-12 py-3">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   className="form-control input-text-box"
                   placeholder="Password"
                   name="password"
                   value={password}
                   onChange={(e) => setPasword(e.target.value)}
                 />
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  checked={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                <label className="" htmlFor="showPassword">
+                  Show Password
+                </label>
               </div>
               <div className="col-12 py-3 text-center">
                 <button className={"btn btn-sign-up"} type="submit">

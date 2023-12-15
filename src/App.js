@@ -12,8 +12,8 @@ import NotFound from "./pages/NotFound";
 import Navbar from "./components/navbar/Navbar";
 import { auth } from "./firebase-config";
 import { signOut } from "firebase/auth";
-import { Login } from "./pages/Auth/SignIn";
-import { Register } from "./pages/Auth/SignUp";
+import { Login } from "./features/signin/SignIn";
+import { Register } from "./features/signup/SignUp";
 import { EditProfile } from "./pages/EditProfile";
 
 function App() {
