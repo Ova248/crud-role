@@ -12,7 +12,7 @@ import {
 export const EditProfile = ({ user }) => {
   const [displayName, setDisplayName] = useState("");
   // const [lastName, setLastName] = useState("");
-  // const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export const EditProfile = ({ user }) => {
     if (user) {
       setDisplayName(user.displayName || "");
       // setLastName(user.lastName || "");
-      // setEmail(user.email || "");
+      setEmail(user.email || "");
     }
   }, [user]);
 
@@ -33,10 +33,10 @@ export const EditProfile = ({ user }) => {
 
       await updateProfile(currentUser, { displayName });
 
-      // if (currentUser.email !== email) {
-      //   await updateEmail(currentUser, email);
-      //   await sendEmailVerification(currentUser);
-      // }
+      if (currentUser.email !== email) {
+        await updateEmail(currentUser, email);
+        await sendEmailVerification(currentUser);
+      }
 
       if (password) {
         await updatePassword(currentUser, password);
@@ -75,7 +75,7 @@ export const EditProfile = ({ user }) => {
           onChange={(e) => setLastName(e.target.value)}
           />
         </div> */}
-            {/* <div className="mb-3">
+            <div className="mb-3">
               <input
                 type="email"
                 className="form-control"
@@ -84,10 +84,10 @@ export const EditProfile = ({ user }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-            </div> */}
+            </div>
             <div className="col-6 py-3">
               <input
-                type={showPassword ? "text" : "password"} 
+                type={showPassword ? "text" : "password"}
                 className="form-control"
                 placeholder="Password"
                 id="password"
@@ -100,7 +100,10 @@ export const EditProfile = ({ user }) => {
                 checked={showPassword}
                 onChange={() => setShowPassword(!showPassword)}
               />
-              <label className="col-5" htmlFor="showPassword"> Show Password</label>
+              <label className="col-5" htmlFor="showPassword">
+                {" "}
+                Show Password
+              </label>
             </div>
             <button type="submit" className="btn btn-primary">
               Update Profile

@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
+import ProfileDropdown from "../profileDropdown/ProfileDropdown";
 
 const Navbar = ({ active, setActive, user, handleLogout }) => {
   const userId = user?.uid;
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleDropdownToggle = () => {
+    setShowDropdown(!showDropdown);
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -51,58 +58,7 @@ const Navbar = ({ active, setActive, user, handleLogout }) => {
               <div className="row g-3">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   {userId ? (
-                    <>
-                      <div className="profile-logo">
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                          alt="logo"
-                          style={{
-                            width: "30px",
-                            height: "30px",
-                            borderRadius: "50%",
-                            marginTop: "12px",
-                          }}
-                        />
-                      </div>
-                      <li className="nav-item dropdown">
-                        <a
-                          className="nav-link dropdown-toggle"
-                          href="#"
-                          id="navbarDropdown"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                          style={{
-                            marginTop: "12px",
-                            marginLeft: "5px",
-                            cursor: "pointer",
-                          }}
-                        >
-                          {user?.displayName} {user?.lastName}
-                        </a>
-                        <div
-                          className="dropdown-menu"
-                          aria-labelledby="navbarDropdown"
-                        >
-                          <Link
-                            to="/edit-profile"
-                            className="dropdown-item"
-                            style={{ textDecoration: "none" }}
-                          >
-                            Editar Perfil
-                          </Link>
-                          <div className="dropdown-divider"></div>
-                          <span
-                            className="dropdown-item"
-                            onClick={handleLogout}
-                            style={{ cursor: "pointer" }}
-                          >
-                            Logout
-                          </span>
-                        </div>
-                      </li>
-                    </>
+                    <ProfileDropdown user={user} handleLogout={handleLogout} />
                   ) : (
                     <Link to="/auth/sign-in" style={{ textDecoration: "none" }}>
                       <li
