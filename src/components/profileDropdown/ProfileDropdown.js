@@ -1,39 +1,50 @@
-import React from "react";
-import { Dropdown } from "react-bootstrap";
+import React, { useState } from "react";
+import "./ProfileDropdown.css";
 
-export const ProfileDropdown = ({ user, handleLogout }) => {
+const ProfileDropdown = ({ user, handleLogout }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+
   return (
-    <Dropdown>
-      <Dropdown.Toggle
-        variant="link"
-        id="dropdown-basic"
-        style={{ fontSize: "14px", display: "flex", alignItems: "center" }}
-      >
-        <>
-          <div className="profile-logo" style={{ marginRight: "5px"}}>
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-              alt="logo"
-              style={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "50%",
-              }}
-            />
-          </div>
-          <p
-            style={{ fontSize: "14px", display: "flex", alignItems: "center", margin:"0"}}
-          >
-            {user?.displayName} {user?.lastName}
-          </p>
-        </>
-      </Dropdown.Toggle>
+    <div
+      className={`profile-dropdown ${isDropdownOpen ? "open" : ""}`}
+      onBlur={closeDropdown}
+    >
+      <div className="dropdown-toggle" onClick={toggleDropdown}>
+        <div className="profile-logo">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            alt="logo"
+            style={{
+              width: "24px",
+              height: "24px",
+              borderRadius: "50%",
+            }}
+          />
+        </div>
+        <p>
+          {user?.displayName} {user?.lastName}
+        </p>
+      </div>
 
-      <Dropdown.Menu>
-        <Dropdown.Item href="/edit-profile">Editar Perfil</Dropdown.Item>
-        <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+      {isDropdownOpen && (
+        <div className="dropdown-menu">
+          <a href="/edit-profile" className="dropdown-item">
+            Editar Perfil
+          </a>
+          <a href="#" className="dropdown-item" onClick={handleLogout}>
+            Cerrar sesión
+          </a>
+        </div>
+      )}
+    </div>
   );
 };
 
