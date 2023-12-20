@@ -8,6 +8,10 @@ import {
   updatePassword,
   sendEmailVerification,
 } from "firebase/auth";
+import "../assets/styles/ShowPassword.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
 
 export const EditProfile = ({ user }) => {
   const [displayName, setDisplayName] = useState("");
@@ -38,7 +42,10 @@ export const EditProfile = ({ user }) => {
         toast.info(`Verification email sent to ${email}`);
       }
 
-      if (currentUser.email !== email || (await currentUser.reload()).emailVerified) {
+      if (
+        currentUser.email !== email ||
+        (await currentUser.reload()).emailVerified
+      ) {
         await updateEmail(currentUser, email);
       }
 
@@ -63,14 +70,17 @@ export const EditProfile = ({ user }) => {
       <h2>Edit Profile</h2>
       <div className="row h-100 justify-content-center align-items-center">
         <div className="col-auto col-lg-6 ">
-          <form className="row justify-content-md-center" onSubmit={handleUpdateProfile}>
+          <form
+            className="row justify-content-md-center"
+            onSubmit={handleUpdateProfile}
+          >
             <div className="col-8 py-3">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Name"
                 id="displayName "
-                value={displayName} 
+                value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
               />
             </div>
@@ -95,24 +105,22 @@ export const EditProfile = ({ user }) => {
               />
             </div>
             <div className="col-8 py-3">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="form-control"
-                placeholder="Password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <input
-                type="checkbox"
-                id="showPassword"
-                checked={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              <label className="col-4" htmlFor="showPassword">
-                {" "}
-                Show Password
-              </label>
+              <div className="password-toggle-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="form-control input-text-box"
+                  placeholder="Contraseña"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <span
+                  className="password-toggle-icon"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                </span>
+              </div>
             </div>
             <button type="submit" className="btn btn-primary col-6 py-3">
               Update Profile
