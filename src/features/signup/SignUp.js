@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
+import "../../assets/styles/ShowPassword.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export const Register = ({ setActive }) => {
   const [name, setName] = useState("");
@@ -78,23 +81,22 @@ export const Register = ({ setActive }) => {
                 />
               </div>
               <div className="col-12 py-3">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="form-control input-text-box"
-                  placeholder="Password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPasword(e.target.value)}
-                />
-                <input
-                  type="checkbox"
-                  id="showPassword"
-                  checked={showPassword}
-                  onChange={() => setShowPassword(!showPassword)}
-                />
-                <label className="col-0" htmlFor="showPassword">
-                  Show Password
-                </label>
+                <div className="password-toggle-container">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form-control input-text-box"
+                    placeholder="Contraseña"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPasword(e.target.value)}
+                  />
+                  <span
+                    className="password-toggle-icon"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                  </span>
+                </div>
               </div>
               <div className="col-12 py-3 text-center">
                 <button className={"btn btn-sign-up"} type="submit">
