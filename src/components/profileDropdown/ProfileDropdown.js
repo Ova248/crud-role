@@ -1,48 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faL } from '@fortawesome/free-solid-svg-icons';
 import "./ProfileDropdown.css";
 
 const ProfileDropdown = ({ user, handleLogout }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  const closeDropdown = () => {
-    setIsDropdownOpen(false);
+  const closeMenu = () => {
+    setIsMenuOpen(false);
   };
+
+  //Dar click afuera se cierra
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [dropdownRef]);
 
   return (
     <div
-      className={`profile-dropdown ${isDropdownOpen ? "open" : ""}`}
-      onBlur={closeDropdown}
+    ref={dropdownRef}
+      className={`profile-Menu ${isMenuOpen ? "open" : ""}`}
     >
-      <div className="dropdown-toggle" onClick={toggleDropdown}>
-        <div className="profile-logo">
-          <img
+      <div className="menu-toggle" onClick={toggleMenu}>
+        <div className="burger-icon">
+        <FontAwesomeIcon icon={faBars} />
+          <span></span>
+          <span></span>
+          <span></span>
+          {/* <img
             src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
             alt="logo"
             style={{
               width: "24px",
               height: "24px",
               borderRadius: "50%",
-            }}
-          />
+            }} 
+          /> */}
         </div>
-        <p>
-          {user?.displayName} {user?.lastName}
-        </p>
       </div>
 
-      {isDropdownOpen && (
-        <div className="dropdown-menu">
-          <a href="/edit-profile" className="dropdown-item">
-            Editar Perfil
-          </a>
-          <a href="#" className="dropdown-item" onClick={handleLogout}>
-            Cerrar sesión
-          </a>
-        </div>
+      {isMenuOpen && (
+         <div className="menu-items">
+         <p className="menu-username">
+           {user?.displayName} {user?.lastName}
+         </p>
+         <a href="/edit-profile" className="menu-item">
+           Editar Perfil
+         </a>
+         <a href="#" className="menu-item" onClick={handleLogout}>
+           Cerrar sesión
+         </a>
+       </div>
       )}
     </div>
   );
