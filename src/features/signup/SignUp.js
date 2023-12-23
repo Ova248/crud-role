@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/ShowPassword.css";
+import "../../assets/styles/Form.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 

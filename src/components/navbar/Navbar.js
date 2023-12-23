@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ProfileDropdown from "../profileDropdown/ProfileDropdown";
+import "../../assets/styles/Navbar.css"
 
 const Navbar = ({ active, setActive, user, handleLogout }) => {
   const userId = user?.uid;

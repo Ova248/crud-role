@@ -1,0 +1,77 @@
+.heading {
+  font-size: 20px;
+  color: #424040;
+  font-weight: 600;
+}
+
+.input-text-box {
+  border-radius: 0;
+  font-size: 15px;
+  height: 45px;
+  letter-spacing: 1px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: rgb(0, 17, 255);
+}
+
+.btn-sign-in {
+  background: #08dd04;
+  border-radius: 5px;
+  color: #fff;
+  padding: 10px 50px;
+}
+
+.btn-sign-up {
+  background: #d41c1c;
+  border-radius: 5px;
+  color: #fff;
+  padding: 10px 50px;
+}
+
+.blog-form input:focus {
+  border-color: yellow;
+}
+
+.description-box {
+  border-radius: 0;
+  height: 150px;
+  resize: none;
+  padding-top: 20px;
+  letter-spacing: 1px;
+}
+
+.btn-add {
+  background: #bf7034;
+  border-radius: 0;
+  color: #fff;
+  padding: 10px 50px;
+}
+
+.react-tag-input {
+  height: 45px;
+}
+
+.react-tag-input:focus {
+  border-color: yellow;
+}
+
+.catg-dropdown {
+  width: 100%;
+  border-radius: 4px;
+  height: 45px;
+  color: #806a78;
+}
+
+.catg-dropdown:focus {
+  outline: none;
+  border-color: yellow;
+}
+
+.trending {
+  float: left;
+  color: #806a78;
+  font-size: 18px;
+  margin: auto;
+}

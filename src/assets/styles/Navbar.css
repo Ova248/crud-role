@@ -1,0 +1,59 @@
+.navbar-light .navbar-nav .open > .nav-link,
+.navbar-light .navbar-nav .active > .nav-link,
+.navbar-light .navbar-nav .nav-link.open,
+.navbar-light .navbar-nav .nav-link.active {
+  color: #fff;
+  padding-top: 12px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 20px;
+  transition: 0.5s;
+  background: rgb(
+    0,
+    13,
+    255
+  ); /* Replace 'your-yellow-color' with the desired color */
+  clip-path: polygon(100% 0, 100% 85%, 14% 85%, 0 100%, 0% 60%, 0 0);
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #222;
+  padding-top: 12px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 20px;
+  transition: 0.5s;
+  position: relative;
+  clip-path: polygon(100% 0, 100% 85%, 14% 85%, 0 100%, 0% 60%, 0 0);
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+  background: rgb(
+    34,
+    62,
+    221
+  ); /* Replace 'your-yellow-color' with the desired color */
+  color: #fff;
+  padding-top: 12px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 20px;
+  position: relative;
+}
+
+.bg-faded {
+  background-color: #f7f7f7;
+}
+
+.mobile_logo_width {
+  display: none;
+}
+
+.navbar-nav {
+  flex-direction: row;
+  cursor: pointer;
+}
