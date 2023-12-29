@@ -1,14 +1,15 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { auth } from "../../firebase-config";
+import { auth, db } from "../../firebase-config";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/ShowPassword.css";
 import "../../assets/styles/Form.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-export const Register = ({ setActive }) => {
+export const Register = () => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,7 +28,15 @@ export const Register = ({ setActive }) => {
           password
         );
         await updateProfile(user, { displayName: `${name} ${lastName}` });
-        setActive("home");
+
+        const userDocRef = await addDoc(collection(db, "users"), {
+          uid: user.uid,
+          name,
+          lastName,
+          email,
+        });
+          
+        toast.success("Registrado con exito")
         navigate("/");
       } catch (error) {
         console.error("Error al actualizar el perfil:", error.message);
