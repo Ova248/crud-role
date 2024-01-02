@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { db } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
@@ -6,59 +6,60 @@ import "../../assets/styles/ShowPassword.css";
 import "../../assets/styles/Form.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { useAuth } from "../authContext/AuthContext";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 
-export const Login = ({ setActive }) => {
+export const Login = () => {
   const [email, setEmail] = useState("");
-  const [password, setPasword] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // const { login } = useAuth();
 
   const navigate = useNavigate();
 
   const handleAuth = async (e) => {
     e.preventDefault();
+
     if (email && password) {
       try {
-        const docRef = doc(collection(db, "users"), email);
-        await setDoc(docRef, { email, password });
-        const docSnap = await getDoc(docRef);
+        const querySnapshot = await getDocs(collection(db, "users"));
 
-        console.log("Contenido del documento:", docSnap.data());
+        querySnapshot.forEach((doc) => {
+          
+          console.log("Correo electrónico del documento:", doc.id);
+          console.log("Correo electrónico proporcionado:", email);
+          console.log(doc.id, " => ", doc.data());
+          console.log("Email:", email);
+          console.log("Password:", password);
+          console.log("Query Snapshot:", querySnapshot.docs.map(doc => doc.data()));
 
-        if (docSnap.exists()) {
-          const userData = docSnap.data();
-          console.log("Contenido del documento:", docSnap.data());
 
-          if (userData.password === password) {
-            // console.log(
-            //   "Inicio de sección confirmado. Datos de usuario: ",
-            //   userData
-            // );
-            // login(userData);
-            setActive("home");
-            navigate("/home");
-          } else {
-            console.log("Contraseña incorrecta");
-            return toast.error("Contraeña incorrecta");
+          if (doc.id === email) {
+            const userData = doc.data();
+            console.log("Datos del usuario encontrado:", userData);
+
+            if (userData.password === password) {
+              toast.success("Inicio de sección confirmada.");
+              navigate("/home");
+            } else {
+              console.log("Contraseña incorrecta");
+              toast.error("Contraseña incorrecta");
+              navigate("/");
+            }
           }
-        } else {
-          console.log("El documento no existe para el correo electrónico proporcionado.");
-          return toast.error("Usuario no encontrado en Firebase");
-        }
+        });
+
+        // Si llega aquí, significa que no se encontró el usuario
+        console.log("El usuario no existe");
+        toast.error("Usuario no encontrado");
       } catch (error) {
         console.error("Error al obtener el documento:", error);
-        return toast.error("Error al obtener el documento de Firebase");
+        toast.error("Error al obtener el documento de Firebase");
       }
     } else {
-      return toast.error("All fields are mandatory to fill");
+      toast.error("Todos los campos son obligatorios");
     }
-
-    navigate("/");
   };
 
-  const handleLick = () => {
+  const handleClick = () => {
     navigate("/auth/sign-up");
   };
 
@@ -89,7 +90,7 @@ export const Login = ({ setActive }) => {
                     placeholder="Contraseña"
                     name="password"
                     value={password}
-                    onChange={(e) => setPasword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <span
                     className="password-toggle-icon"
@@ -112,7 +113,7 @@ export const Login = ({ setActive }) => {
                   <span
                     className="link-danger"
                     style={{ textDecoration: "none", cursor: "pointer" }}
-                    onClick={handleLick}
+                    onClick={handleClick}
                   >
                     Sign Up
                   </span>

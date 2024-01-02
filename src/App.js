@@ -13,7 +13,6 @@ import { signOut } from "firebase/auth";
 import { Login } from "./features/signin/SignIn";
 import { Register } from "./features/signup/SignUp";
 import { EditProfile } from "./pages/EditProfile";
-import { AuthProvider } from "./features/authContext/AuthContext";
 
 function App() {
   const [active, setActive] = useState("home");
