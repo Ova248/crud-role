@@ -1,17 +1,19 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { auth } from "../../firebase-config";
+import { db } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/ShowPassword.css";
 import "../../assets/styles/Form.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { useAuth } from "../authContext/AuthContext";
 
 export const Login = ({ setActive }) => {
   const [email, setEmail] = useState("");
   const [password, setPasword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  // const { login } = useAuth();
 
   const navigate = useNavigate();
 
@@ -19,17 +21,35 @@ export const Login = ({ setActive }) => {
     e.preventDefault();
     if (email && password) {
       try {
-        const { user } = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        console.log(user);
-        setActive("home");
-        navigate("/home");
+        const docRef = doc(collection(db, "users"), email);
+        await setDoc(docRef, { email, password });
+        const docSnap = await getDoc(docRef);
+
+        console.log("Contenido del documento:", docSnap.data());
+
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          console.log("Contenido del documento:", docSnap.data());
+
+          if (userData.password === password) {
+            // console.log(
+            //   "Inicio de sección confirmado. Datos de usuario: ",
+            //   userData
+            // );
+            // login(userData);
+            setActive("home");
+            navigate("/home");
+          } else {
+            console.log("Contraseña incorrecta");
+            return toast.error("Contraeña incorrecta");
+          }
+        } else {
+          console.log("El documento no existe para el correo electrónico proporcionado.");
+          return toast.error("Usuario no encontrado en Firebase");
+        }
       } catch (error) {
-        console.error("Error signing in:", error.message);
-        return toast.error("Invalid email or password.");
+        console.error("Error al obtener el documento:", error);
+        return toast.error("Error al obtener el documento de Firebase");
       }
     } else {
       return toast.error("All fields are mandatory to fill");

@@ -1,15 +1,14 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { auth, db } from "../../firebase-config";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase-config";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";  
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/ShowPassword.css";
 import "../../assets/styles/Form.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-export const Register = () => {
+export const Register = ({setActive}) => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,24 +21,26 @@ export const Register = () => {
     e.preventDefault();
     if (name && lastName && email && password) {
       try {
-        const { user } = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        await updateProfile(user, { displayName: `${name} ${lastName}` });
+        const userDocRef = doc(collection(db, "users"));
 
-        const userDocRef = await addDoc(collection(db, "users"), {
-          uid: user.uid,
+        const userDocId = userDocRef.id;
+
+        await setDoc(userDocRef, {
+          uid: userDocId,
           name,
           lastName,
           email,
+          password
         });
-          
-        toast.success("Registrado con exito")
-        navigate("/");
+        setActive("home");
+
+
+        console.log("Documento de usuario creado con ID: ", userDocId);
+
+        toast.success("Registrado con éxito");
+        navigate("/auth/sign-in");
       } catch (error) {
-        console.error("Error al actualizar el perfil:", error.message);
+        console.error("Error al crear el usuario:", error.message);
         toast.error("Error al crear la cuenta de usuario");
       }
     } else {
