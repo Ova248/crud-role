@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { auth } from "../firebase-config";
+import { db } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
-import {
-  updateProfile,
-  updateEmail,
-  updatePassword,
-  sendEmailVerification,
-} from "firebase/auth";
 import "../assets/styles/ShowPassword.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
+import {
+  updateDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+} from "firebase/firestore";
 
 export const EditProfile = ({ user }) => {
-  const [displayName, setDisplayName] = useState("");
-  // const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [newEmail, setNewEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      setDisplayName(user.displayName || "");
-      // setLastName(user.lastName || "");
+      setName(user.name || "");
+      setLastName(user.lastName || "");
       setEmail(user.email || "");
     }
   }, [user]);
@@ -33,31 +34,25 @@ export const EditProfile = ({ user }) => {
     e.preventDefault();
 
     try {
-      const currentUser = auth.currentUser;
+      const usersCollection = collection(db, "users");
+      const userQuery = query(usersCollection, where("email", "==", email));
+      const querySnapshot = await getDocs(userQuery);
 
-      await updateProfile(currentUser, { displayName });
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        const userRef = userDoc.ref;
 
-      if (currentUser.email !== email) {
-        await sendEmailVerification(currentUser);
-        toast.info(`Verification email sent to ${email}`);
-      }
+        const updatedData = {
+          name,
+          lastName,
+          email: newEmail || email, 
+        };
+        await updateDoc(userRef, updatedData);
 
-      if (
-        currentUser.email !== email ||
-        (await currentUser.reload()).emailVerified
-      ) {
-        await updateEmail(currentUser, email);
-      }
-
-      if (password) {
-        await updatePassword(currentUser, password);
-      }
-
-      if (currentUser.emailVerified) {
         toast.success("Profile updated successfully");
         navigate("/");
       } else {
-        toast.info("Please verify your email address before proceeding.");
+        toast.error("User not found");
       }
     } catch (error) {
       console.error("Error updating profile:", error.message);
@@ -74,34 +69,44 @@ export const EditProfile = ({ user }) => {
             className="row justify-content-md-center"
             onSubmit={handleUpdateProfile}
           >
-            <div className="col-8 py-3">
+            <div className="col-4 py-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control input-text-box"
                 placeholder="Name"
-                id="displayName "
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
-            {/* <div className="col-6 py-3">
-           <input
-           type="text"
-           className="form-control"
-           placeholder="lastName"
-           id="lastName"
-           value={lastName}
-           onChange={(e) => setLastName(e.target.value)}
-           />
-           </div> */}
+            <div className="col-4 py-3">
+              <input
+                type="text"
+                className="form-control input-text-box"
+                placeholder="lastName"
+                name="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
             <div className="col-8 py-3">
               <input
                 type="email"
                 className="form-control"
-                placeholder="Email"
-                id="email"
+                placeholder="Old email"
+                name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="col-8 py-3">
+              <input
+                type="email"
+                className="form-control"
+                placeholder="New Email"
+                name="newEmail"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
               />
             </div>
             <div className="col-8 py-3">

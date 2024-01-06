@@ -9,36 +9,34 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { useAuth } from "../authContext/AuthContext";
 
-
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-  const {login} = useAuth();
+  const { login } = useAuth();
 
   const handleAuth = async (e) => {
     e.preventDefault();
 
     if (email && password) {
       try {
+        let userFound = false;
         const querySnapshot = await getDocs(collection(db, "users"));
 
         querySnapshot.forEach((doc) => {
-
-          console.log(doc.data().email);
-
           if (doc.data().email === email && doc.data().password === password) {
             const userData = doc.data();
             login(userData);
             navigate("/");
             toast.success("Inicio de seccion confirmado");
-          } else {
-            toast.error("Usuario no encontrado");
+            userFound = true;
           }
         });
-
+        if (!userFound) {
+          toast.error("Usuario no encontrado");
+        }
       } catch (error) {
         console.error("Error al obtener el documento:", error);
         toast.error("Error al obtener el documento de Firebase");
