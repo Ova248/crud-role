@@ -23,33 +23,19 @@ export const Login = () => {
         const querySnapshot = await getDocs(collection(db, "users"));
 
         querySnapshot.forEach((doc) => {
-          
-          console.log("Correo electrónico del documento:", doc.id);
-          console.log("Correo electrónico proporcionado:", email);
-          console.log(doc.id, " => ", doc.data());
-          console.log("Email:", email);
-          console.log("Password:", password);
-          console.log("Query Snapshot:", querySnapshot.docs.map(doc => doc.data()));
 
+          console.log(doc.data().email);
 
-          if (doc.id === email) {
+          if (doc.data().email === email && doc.data().password === password) {
             const userData = doc.data();
             console.log("Datos del usuario encontrado:", userData);
-
-            if (userData.password === password) {
-              toast.success("Inicio de sección confirmada.");
-              navigate("/home");
-            } else {
-              console.log("Contraseña incorrecta");
-              toast.error("Contraseña incorrecta");
-              navigate("/");
-            }
+            navigate("/home");
+            toast.success("Inicio de seccion confirmado");
+          } else {
+            toast.error("Usuario no encontrado");
           }
         });
 
-        // Si llega aquí, significa que no se encontró el usuario
-        console.log("El usuario no existe");
-        toast.error("Usuario no encontrado");
       } catch (error) {
         console.error("Error al obtener el documento:", error);
         toast.error("Error al obtener el documento de Firebase");
