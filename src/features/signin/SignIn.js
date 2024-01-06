@@ -7,6 +7,8 @@ import "../../assets/styles/Form.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { useAuth } from "../authContext/AuthContext";
+
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +16,7 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+  const {login} = useAuth();
 
   const handleAuth = async (e) => {
     e.preventDefault();
@@ -28,8 +31,8 @@ export const Login = () => {
 
           if (doc.data().email === email && doc.data().password === password) {
             const userData = doc.data();
-            console.log("Datos del usuario encontrado:", userData);
-            navigate("/home");
+            login(userData);
+            navigate("/");
             toast.success("Inicio de seccion confirmado");
           } else {
             toast.error("Usuario no encontrado");

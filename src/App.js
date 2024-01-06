@@ -9,24 +9,25 @@ import { Roles } from "./pages/Roles";
 import AddEditCrud from "./pages/AddEditCrud";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/navbar/Navbar";
-import { signOut } from "firebase/auth";
 import { Login } from "./features/signin/SignIn";
 import { Register } from "./features/signup/SignUp";
 import { EditProfile } from "./pages/EditProfile";
+import { useAuth } from "./features/authContext/AuthContext";
 
 function App() {
   const [active, setActive] = useState("home");
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   return (
-    <div className="App">
-     
+      <div className="App">
         <Navbar
           setActive={setActive}
           active={active}
           user={user}
           handleLogout={() => {
+            logout();
             setUser(null);
             setActive("login");
             navigate("/");
@@ -49,8 +50,7 @@ function App() {
           <Route path="/edit-profile" element={<EditProfile user={user} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      
-    </div>
+      </div>
   );
 }
 
