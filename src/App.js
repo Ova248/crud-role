@@ -5,7 +5,7 @@ import { Home } from "./pages/Home";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Roles } from "./pages/Roles";
+import UserRole from "./pages/Roles";
 import AddEditCrud from "./pages/AddEditCrud";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/navbar/Navbar";
@@ -36,7 +36,6 @@ function App() {
         <ToastContainer position="top-left" />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/roles" element={<Roles />} />
           <Route path="/create" element={<AddEditCrud />} />
           <Route path="/update/:id" element={<AddEditCrud />} />
           <Route
@@ -47,6 +46,7 @@ function App() {
             path="/auth/sign-up"
             element={<Register setActive={setActive} />}
           />
+          <Route path="/user-roles" element={<UserRole currentUser={user} />} />
           <Route path="/edit-profile" element={<EditProfile user={user} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

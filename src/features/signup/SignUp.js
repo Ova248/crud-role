@@ -30,13 +30,10 @@ export const Register = ({setActive}) => {
           name,
           lastName,
           email,
-          password
+          password,
+          roles: { admin: false, reader: true }, 
         });
         setActive("home");
-
-
-        console.log("Documento de usuario creado con ID: ", userDocId);
-
         toast.success("Registrado con éxito");
         navigate("/auth/sign-in");
       } catch (error) {

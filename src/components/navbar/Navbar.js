@@ -7,6 +7,8 @@ import { useAuth } from "../../features/authContext/AuthContext";
 const Navbar = ({ active, setActive, handleLogout }) => {
   const { user } = useAuth();
 
+  const isAdmin = user && user.roles && user.roles.admin;
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid bg-faded padding-media">
@@ -46,6 +48,22 @@ const Navbar = ({ active, setActive, handleLogout }) => {
                     Create
                   </li>
                 </Link>
+              </ul>
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                {isAdmin && (
+                  <Link to="/user-roles" style={{ textDecoration: "none" }}>
+                    <li
+                      className={`nav-item nav-link ${
+                        active === "admin" ? "active" : ""
+                      }`}
+                      onClick={() => setActive("admin")}
+                    >
+                      Admin
+                    </li>
+                  </Link>
+                )}
+
+                {/* ... (otras opciones del menú) */}
               </ul>
               <div className="row g-3">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
