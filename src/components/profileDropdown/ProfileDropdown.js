@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faL } from '@fortawesome/free-solid-svg-icons';
-import "./ProfileDropdown.css";
-import { useAuth } from "../../features/authContext/AuthContext";
+import "../../assets/styles/ProfileDropdown.css";
+import { useAuth } from "../../contexts/AuthContext";
 
 const ProfileDropdown = ({  handleLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

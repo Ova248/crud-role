@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
-import "./App.css";
-import "./media-query.css";
-import { Home } from "./pages/Home";
+import { Home } from "../pages/Home";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import UserRole from "./pages/Roles";
-import AddEditCrud from "./pages/AddEditCrud";
-import NotFound from "./pages/NotFound";
-import Navbar from "./components/navbar/Navbar";
-import { Login } from "./features/signin/SignIn";
-import { Register } from "./features/signup/SignUp";
-import { EditProfile } from "./pages/EditProfile";
-import { useAuth } from "./features/authContext/AuthContext";
+import UserRole from "../pages/Roles";
+import AddEditCrud from "../pages/AddEditCrud";
+import NotFound from "../pages/NotFound";
+import Navbar from "../components/navbar/Navbar";
+import { Login } from "../pages/SignIn";
+import { Register } from "../pages/SignUp";
+import { EditProfile } from "../pages/EditProfile";
+import { useAuth } from "../contexts/AuthContext";
 
 function App() {
   const [active, setActive] = useState("home");

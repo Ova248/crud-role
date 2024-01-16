@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { db } from "../firebase-config";
+import { db } from "../firebase/firebase-config";
 import { query, collection, getDocs } from "firebase/firestore";
-import UserRoleActions from "../features/rol/useRol";
-import { useAuth } from "../features/authContext/AuthContext";
+import UserRoleActions from "./useRol";
+import { useAuth } from "../contexts/AuthContext";
 import "../assets/styles/Roles.css";
 
 const UserRole = () => {

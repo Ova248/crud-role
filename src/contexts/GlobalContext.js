@@ -8,10 +8,10 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db } from "../firebase/firebase-config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../features/authContext/AuthContext";
+import { useAuth } from "./AuthContext";
 
 const GlobalContext = createContext();
 
