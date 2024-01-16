@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { db } from "../firebase-config";
-import { useNavigate } from "react-router-dom";
 import "../assets/styles/ShowPassword.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import {
-  updateDoc,
-  getDocs,
-  collection,
-  query,
-  where,
-} from "firebase/firestore";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 export const EditProfile = ({ user }) => {
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    name,
+    setName,
+    lastName,
+    setLastName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    newEmail,
+    setNewEmail,
+    handleUpdateProfile,
+  } = useGlobalContext();
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -29,36 +27,6 @@ export const EditProfile = ({ user }) => {
       setEmail(user.email || "");
     }
   }, [user]);
-
-  const handleUpdateProfile = async (e) => {
-    e.preventDefault();
-
-    try {
-      const usersCollection = collection(db, "users");
-      const userQuery = query(usersCollection, where("email", "==", email));
-      const querySnapshot = await getDocs(userQuery);
-
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
-        const userRef = userDoc.ref;
-
-        const updatedData = {
-          name,
-          lastName,
-          email: newEmail || email, 
-        };
-        await updateDoc(userRef, updatedData);
-
-        toast.success("Profile updated successfully");
-        navigate("/");
-      } else {
-        toast.error("User not found");
-      }
-    } catch (error) {
-      console.error("Error updating profile:", error.message);
-      toast.error("Error updating profile");
-    }
-  };
 
   return (
     <div className="container">

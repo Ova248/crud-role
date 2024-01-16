@@ -1,54 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { db } from "../../firebase-config";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import "../../assets/styles/ShowPassword.css";
 import "../../assets/styles/Form.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
-import { useAuth } from "../authContext/AuthContext";
+import { useGlobalContext } from "../../contexts/GlobalContext";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { handleLogin, setEmail, setPassword, email, password } = useGlobalContext();
   const [showPassword, setShowPassword] = useState(false);
-
-  const navigate = useNavigate();
-  const { login } = useAuth();
-
-  const handleAuth = async (e) => {
-    e.preventDefault();
-
-    if (email && password) {
-      try {
-        let userFound = false;
-        const querySnapshot = await getDocs(collection(db, "users"));
-
-        querySnapshot.forEach((doc) => {
-          if (doc.data().email === email && doc.data().password === password) {
-            const userData = doc.data();
-            login(userData);
-            navigate("/");
-            toast.success("Inicio de seccion confirmado");
-            userFound = true;
-          }
-        });
-        if (!userFound) {
-          toast.error("Usuario no encontrado");
-        }
-      } catch (error) {
-        console.error("Error al obtener el documento:", error);
-        toast.error("Error al obtener el documento de Firebase");
-      }
-    } else {
-      toast.error("Todos los campos son obligatorios");
-    }
-  };
-
-  const handleClick = () => {
-    navigate("/auth/sign-up");
-  };
 
   return (
     <div className="container-fluid mb-4">
@@ -58,7 +18,7 @@ export const Login = () => {
         </div>
         <div className="row h-100 justify-content-center align-items-center">
           <div className="col-10 col-md-8 col-lg-6">
-            <form className="row" onSubmit={handleAuth}>
+            <form className="row" onSubmit={handleLogin}>
               <div className="col-12 py-3">
                 <input
                   type="email"
@@ -97,13 +57,14 @@ export const Login = () => {
               <div className="text-center justify-content-center mt-2 pt-2">
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Don't have an account ?&nbsp;
-                  <span
-                    className="link-danger"
-                    style={{ textDecoration: "none", cursor: "pointer" }}
-                    onClick={handleClick}
-                  >
-                    Sign Up
-                  </span>
+                  <Link to="/auth/sign-up">
+                    <span
+                      className="link-danger"
+                      style={{ textDecoration: "none", cursor: "pointer" }}
+                    >
+                      Sign Up
+                    </span>
+                  </Link>
                 </p>
               </div>
             </div>
